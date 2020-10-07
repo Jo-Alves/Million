@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-	"serve": "nodemon ./bin/www",
-    "test": "jasmine"
+    "serve": "nodemon ./bin/www",
+    "jasmine": "jasmine"
   },
   "dependencies": {
     "axios": "^0.19.2",
