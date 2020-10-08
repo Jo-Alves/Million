@@ -34,18 +34,31 @@ describe("UsuarioController", () => {
     })
 
     describe("PUT/usuarios.json - Deve alterar os dados do usuário no banco de dados", () => {
-        it("deve retornar o status de 204", async (done) => {
+        it("deve alterar usuário e retornar o status de 204", async (done) => {
             const usuario = await Usuario.create({
                 nome: "Alexina Rosa", cpf: "222.222.222-22", telefone: "(77) 77777-7777", email: "alexinarosa@example.com", endereco: "Campo das flores, 123", banco: "0111 3333333-5", nivelInvestidor: 9.5
             });
             const body = {
                 nome: "Maria Lídia", cpf: "333.333.333-33", telefone: "(88) 88888-8888", email: "marialidia@example.com", endereco: "Campo das flores, 123", banco: "0111 3333333-5", nivelInvestidor: 10
             }
-           
+
             const response = await axios.put(`${host}/usuarios/${usuario._id}.json`, body);
             expect(response.status).toBe(204);
             done();
         })
     })
-})
 
+    describe("DELETE/usuarios/:id.json", () => {
+        it("Deve apagar usuário e retornar o status de 204", async done => {
+            let data = {
+                nome: "Clarete Silva", cpf: "444.444.444-44", telefone: "(77) 55677-7777", email: "Claretesilva@example.com", endereco: "Belo Jardim, 234", banco: "0111 3333333-5", nivelInvestidor: 5
+            }
+
+            const usuario = await Usuario.create(data);
+
+            const response = await axios.delete(`${host}/usuarios/${usuario._id}.json`);
+            expect(response.status).toBe(204);
+            done();
+        })
+    })
+})

@@ -38,11 +38,19 @@ const UsuarioController = {
                 banco: request.body.banco,
                 nivelInvestidor: request.body.nivelInvestidor
             };
-          await Usuario.findOneAndUpdate(idUsuario, body);
+            await Usuario.findOneAndUpdate(idUsuario, body);
             response.status(204).send("")
         }
         catch (error) {
             response.status(401).send(error)
+        }
+    },
+    delete: async (request, response, next) => {
+        try {
+            await Usuario.findByIdAndDelete(request.params.id)
+            response.status(204).send({})
+        } catch (error) {
+            response.status(204).send({})
         }
     }
 }
