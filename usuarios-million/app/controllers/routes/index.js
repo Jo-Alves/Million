@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 let HomeController = require("../home_controller");
-let UsuarioController = require("../usuario_controller");
+let UsuarioController = require("../user_controller");
 
 router.get('/', HomeController.index);
 router.get('/usuarios.json', UsuarioController.find);

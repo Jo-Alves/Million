@@ -1,10 +1,10 @@
-const Usuario = require("../models/usuarios");
+const User = require("../models/user");
 let token = "12345";
 
 const UsuarioController = {
     find: (request, response, next) => {
         if (request.headers.auth_token === token) {
-            Usuario.find()
+            User.find()
                 .then(dado => response.send(dado))
                 .catch(error => {
                     console.log(`Error: ${error}`)
@@ -16,7 +16,7 @@ const UsuarioController = {
     },
     findIdOne: (request, response, next) => {
         if (request.headers.auth_token === token) {
-            Usuario.findById(request.params.id)
+            User.findById(request.params.id)
                 .then(dado => response.send(dado))
                 .catch(error => {
                     console.log(`Error: ${error}`)
@@ -33,11 +33,16 @@ const UsuarioController = {
                 cpf: request.body.cpf,
                 telefone: request.body.telefone,
                 email: request.body.email,
+                cep: request.body.cep,
                 endereco: request.body.endereco,
+                numero: request.body.numero,
+                cidade: request.body.cidade,
+                estado: request.body.estado,
+                pais: request.body.pais,
                 banco: request.body.banco,
                 nivelInvestidor: request.body.nivelInvestidor
             }
-            const usuario = new Usuario(data)
+            const usuario = new User(data)
 
             usuario.save(error => {
                 if (error) {
@@ -62,11 +67,16 @@ const UsuarioController = {
                     cpf: request.body.cpf,
                     telefone: request.body.telefone,
                     email: request.body.email,
+                    cep: request.body.cep,
                     endereco: request.body.endereco,
+                    numero: request.body.numero,
+                    cidade: request.body.cidade,
+                    estado: request.body.estado,
+                    pais: request.body.pais,
                     banco: request.body.banco,
                     nivelInvestidor: request.body.nivelInvestidor
                 };
-                await Usuario.findByIdAndUpdate(idUsuario, body);
+                await User.findByIdAndUpdate(idUsuario, body);
                 response.status(204).send({})
             }
             else {
@@ -80,7 +90,7 @@ const UsuarioController = {
     delete: async (request, response, next) => {
         try {
             if (request.headers.auth_token === token) {
-                await Usuario.findByIdAndDelete(request.params.id)
+                await User.findByIdAndDelete(request.params.id)
                 response.status(204).send({})
             }
             else {
