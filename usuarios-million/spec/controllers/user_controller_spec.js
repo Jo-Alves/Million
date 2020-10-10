@@ -1,6 +1,7 @@
 const axios = require("axios").default;
 const User = require("../../app/models/user");
 const host = "http://localhost:3000";
+
 describe("UserController", () => {
     beforeEach(async () => {
         await User.deleteMany();

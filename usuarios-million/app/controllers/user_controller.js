@@ -5,7 +5,7 @@ const UsuarioController = {
     find: (request, response, next) => {
         if (request.headers.auth_token === token) {
             User.find()
-                .then(dado => response.send(dado))
+                .then(dados => response.send(dados))
                 .catch(error => {
                     console.log(`Error: ${error}`)
                 })
@@ -14,7 +14,7 @@ const UsuarioController = {
             response.status(401).send({ Error: "Acesso negado!" })
         }
     },
-    findIdOne: (request, response, next) => {
+    findById: (request, response, next) => {
         if (request.headers.auth_token === token) {
             User.findById(request.params.id)
                 .then(dado => response.send(dado))
