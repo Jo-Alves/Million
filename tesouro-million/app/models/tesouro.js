@@ -6,8 +6,8 @@ const schema = mongoose.Schema({
     ir: {type: String, required: true, enum: ["SIM", "NÃO"], uppercase: true},
     fixado: {type: String, required: true, enum: ["Pré", "Pós"]},
     pais: {type: String, required: true},
-    cencimenro: {type: String, required: true}
+    vencimento: {type: Date, required: true}
 });
 
-const Tesouro = mongoose.model("tesouro", schema)
+const Tesouro = mongoose.model("tesouros", schema)
 module.exports = Tesouro;
