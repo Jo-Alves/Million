@@ -8,8 +8,8 @@ const acaoController = {
                 .then(data => response.status(200).send(data))
                 .catch(error => response.status(401).send(error));
         }
-        else{
-            response.status(401).send(`Acesso negado!`);
+        else {
+            response.status(401).send({ error: "Acesso negado!" });
         }
     },
     findById: (request, response, next) => {
@@ -18,8 +18,8 @@ const acaoController = {
                 .then(data => response.status(200).send(data))
                 .catch(error => response.status(401).send(error));
         }
-        else{
-            response.status(401).send(`Acesso negado!`);
+        else {
+            response.status(401).send({ error: "Acesso negado!" });
         }
     },
     inserted: (request, response, next) => {
@@ -32,8 +32,8 @@ const acaoController = {
                     response.status(201).send(acao);
             })
         }
-        else{
-            response.status(401).send(`Acesso negado!`);
+        else {
+            response.status(401).send({ error: "Acesso negado!" });
         }
     },
     update: async (request, response, next) => {
@@ -46,8 +46,8 @@ const acaoController = {
                 response.status(401).send({});
             }
         }
-        else{
-            response.status(401).send(`Acesso negado!`);
+        else {
+            response.status(401).send({ error: "Acesso negado!" });
         }
     },
     delete: async (request, response, next) => {
@@ -60,8 +60,8 @@ const acaoController = {
                 response.status(401).send({});
             }
         }
-        else{
-            response.status(401).send(`Acesso negado!`);
+        else {
+            response.status(401).send({ error: "Acesso negado!" });
         }
     }
 }
