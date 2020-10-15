@@ -20,7 +20,7 @@ describe("TDD Tesouro Usuário Controller", () => {
             done()
         })
     })
-    
+
     describe("GET/tesouros-usuario.json", () => {
         it("Deve retornar o status de 200 e o código do tesouro", async done => {
             body = {
@@ -30,8 +30,8 @@ describe("TDD Tesouro Usuário Controller", () => {
                 dataInvestimento: new Date()
             }
             await TesouroUsuario.create(body)
-            const response = await axios.get(`${host}/tesouros-usuario.json`, body);
-            expect(response.data.codigoTesouro).toBe("VELMA")
+            const response = await axios.get(`${host}/tesouros-usuario.json`);
+            expect(response.data[0].codigoTesouro).toBe("VELMA")
             expect(response.status).toBe(200)
             done()
         })
@@ -46,13 +46,13 @@ describe("TDD Tesouro Usuário Controller", () => {
                 dataInvestimento: new Date()
             }
             const tesouroUsuario = await TesouroUsuario.create(body)
-            const response = await axios.get(`${host}/tesouros-usuario.json/${tesouroUsuario._id}`, body);
-            expect(response.data.codigoTesouro).toBe("VELMA")
+            const response = await axios.get(`${host}/tesouros-usuario/${tesouroUsuario._id}.json`);
+            expect(response.data.codigoTesouro).toBe("FRINSTONE")
             expect(response.status).toBe(200)
             done()
         })
     })
-    
+
     describe("PUT/tesouros-usuario/:id.json", () => {
         it("Deve retornar o status de 204", async done => {
             const body = {
@@ -69,15 +69,16 @@ describe("TDD Tesouro Usuário Controller", () => {
                 dataInvestimento: new Date()
             }
             const tesouroUsuario = await TesouroUsuario.create(body)
-            const response = await axios.put(`${host}/tesouros-usuario.json/${tesouroUsuario._id}`, bodyUpdate);
-            expect(response.data.codigoTesouro).toBe("BARNEY")
-            expect(response.status).toBe(200)
+            const response = await axios.put(`${host}/tesouros-usuario/${tesouroUsuario._id}.json`, bodyUpdate);
+            const find = await TesouroUsuario.findById(tesouroUsuario._id)
+            expect(find.codigoTesouro).toBe("BARNEY")
+            expect(response.status).toBe(204)
             done()
         })
     })
-    
+
     describe("DELETE/tesouros-usuario/:id.json", () => {
-        it("Deve retornar o status de 201", async done => {
+        it("Deve retornar o status de 204", async done => {
             body = {
                 codigoTesouro: "FRINSTONE",
                 codigoUsuario: "sf828",
@@ -85,9 +86,9 @@ describe("TDD Tesouro Usuário Controller", () => {
                 dataInvestimento: new Date()
             }
             const tesouroUsuario = await TesouroUsuario.create(body)
-            const response = await axios.get(`${host}/tesouros-usuario.json/${tesouroUsuario._id}`);
+            const response = await axios.delete(`${host}/tesouros-usuario/${tesouroUsuario._id}.json`);
             expect(response.data).toBe("")
-            expect(response.status).toBe(200)
+            expect(response.status).toBe(204)
             done()
         })
     })
