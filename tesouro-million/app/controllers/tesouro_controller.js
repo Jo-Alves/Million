@@ -1,5 +1,5 @@
 const Tesouro = require("../models/tesouro");
-const token = "9876543210";
+const token = "12345";
 
 const tesouroController = {
     find: (request, response, next) => {

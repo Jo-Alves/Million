@@ -1,5 +1,5 @@
 const Acao = require("../models/acao");
-const token = "1234567890";
+const token = "12345";
 
 const acaoController = {
     find: (request, response, next) => {

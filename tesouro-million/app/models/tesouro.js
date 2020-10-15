@@ -1,4 +1,4 @@
-const mongoose = require("../../db/connection");
+﻿const mongoose = require("../../db/connection");
 
 const schema = mongoose.Schema({
     nome: {type: String, required: true},
