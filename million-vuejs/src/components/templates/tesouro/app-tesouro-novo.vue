@@ -130,36 +130,63 @@
           </svg>
         </div>
         <div class="col-10">
-			<h1 class="mb-3" style="text-transform: uppercase;">Cdb</h1>
-			<div class="form">
-				<input class="form-control" type="text" placeholder="Nome..." />
-				<input class="form-control mt-2" type="number" placeholder="Valor Taxa..." />
-				<input class="form-control mt-2" type="date" placeholder="Vencimento..." />
-				<button class="btn btn-success mt-2 p-2 pl-4 pr-4">Salvar</button>
+          <h1 class="mb-3" style="text-transform: uppercase">Tesouro Direto</h1>
+          <div class="form">
+            <input class="form-control" type="text" placeholder="Nome..." v-model="tesouro.nome" />
+            <input class="form-control mt-2" type="number" placeholder="Taxa..." v-model="tesouro.taxa" />
+            <select class="form-control mt-2" v-model="tesouro.ir" >
+              <option value disabled>Selecione se tem Imposto de Renda</option>
+              <option value="SIM">SIM</option>
+              <option value="NÃO">NÃO</option>
+            </select>
+            <select class="form-control mt-2" v-model="tesouro.fixado" >
+              <option value disabled>Selecione se É PRÉ OU PRÓ</option>
+              <option value="PRÉ">PRÉ</option>
+              <option value="PRÓ">PRÓ</option>
+            </select>
+            <input class="form-control" type="text" placeholder="País..." v-model="tesouro.pais" />
+            <input class="form-control" type="Date" placeholder="Vencimento..." v-model="tesouro.vencimento" />
+			<div class="alert alert-danger mb-2 mt-2" v-if="error">
+				{{error}}
 			</div>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>taxa</th>
-						<th>Vencimento</th>
-						<th>Options</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>ASDASD</td>
-						<td>0.3</td>
-						<td>10/10/1000</td>
-						<td>
-							<span class="btn btn-warning mr-2"  style="font-size: 12px;"><i class="fas fa-pencil-alt" style="font-size: 20px;"></i></span>
-							<span class="btn btn-danger" style="font-size: 12px;"><i class="fas fa-trash"  style="font-size: 20px;"></i></span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+            <button class="btn btn-success mt-2 p-2 pl-4 pr-4 mr-3" @click="salvar" >
+              Salvar
+            </button>
+            <router-link to="/tesouro" class="btn btn-danger mt-2 p-2 pl-4 pr-4">Cancelar</router-link>
+          </div>
         </div>
       </div>
     </div>
   </main>
 </template>
+<script>
+import api from "./../../../config/api";
+
+export default {
+	data(){
+		return {
+			error: "",
+			tesouro: {
+				nome: "",
+                ir: "",
+                fixado: "",
+                taxa: "",
+                vencimento: "",
+                pais: ""
+			}
+		}
+	},
+	methods: {
+		salvar(){
+			console.log(this.tesouro)
+			api.post("tesouros.json", this.tesouro)
+				.then(() => {
+					history.go(-1)
+				})
+				.catch(err => {
+					this.error = err
+				})
+		}
+	}
+}
+</script>

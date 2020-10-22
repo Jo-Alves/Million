@@ -130,43 +130,49 @@
           </svg>
         </div>
         <div class="col-10">
-			<h1 class="mb-3" style="text-transform: uppercase;">Ação</h1>
-			<div class="form">
-				<input class="form-control" type="text" placeholder="Nome..." />
-				<input class="form-control" type="text" placeholder="Código..." />
-				<input class="form-control mt-2" type="number" placeholder="Taxa..." />
-				<select class="form-control mt-2">
-					<option value disabled>Escolha o tipo</option>
-					<option value="ON">ON</option>
-					<option value="PN">PN</option>
-				</select>
-				<button class="btn btn-success mt-2 p-2 pl-4 pr-4">Salvar</button>
+          <h1 class="mb-3" style="text-transform: uppercase">Cdb</h1>
+          <div class="form">
+            <input class="form-control" type="text" placeholder="Nome..." v-model="cdb.nome" />
+            <input class="form-control mt-2" type="number" placeholder="Valor Taxa..." v-model="cdb.valorTaxa" />
+            <input class="form-control mt-2" type="date" placeholder="Vencimento..."  v-model="cdb.vencimento"/>
+			<div class="alert alert-danger mb-2 mt-2" v-if="error">
+				{{error}}
 			</div>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>Código</th>
-						<th>Taxa</th>
-						<th>Tipo</th>
-						<th>Options</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>ASDASD</td>
-						<td>asd</td>
-						<td>1.9</td>
-						<td>ON</td>
-						<td>
-							<span class="btn btn-warning mr-2"  style="font-size: 12px;"><i class="fas fa-pencil-alt" style="font-size: 20px;"></i></span>
-							<span class="btn btn-danger" style="font-size: 12px;"><i class="fas fa-trash"  style="font-size: 20px;"></i></span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+            <button class="btn btn-success mt-2 p-2 pl-4 pr-4 mr-3" @click="salvar" >
+              Salvar
+            </button>
+            <router-link to="/cbd" class="btn btn-danger mt-2 p-2 pl-4 pr-4">Cancelar</router-link>
+          </div>
         </div>
       </div>
     </div>
   </main>
 </template>
+
+<script>
+import api from "./../../../config/api";
+
+export default {
+	data(){
+		return {
+			error: "",
+			cdb: {
+				nome: "",
+				valorTaxa: "",
+				vencimento: ""
+			}
+		}
+	}, methods: {
+		salvar(){
+			api.post("/cdb.json", this.cdb)
+				.then(() => {
+					history.go(-1)
+				})
+				.catch(err => {
+					this.error = err;
+				})
+		}
+	}
+}
+
+</script>

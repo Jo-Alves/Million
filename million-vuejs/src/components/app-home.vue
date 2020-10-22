@@ -11,7 +11,7 @@
             Projeto criado com a turma da comunidade do torne-se um programador
           </p>
           <div class="d-flex flex-column flex-md-row">
-            <a href="#" class="btn btn-lg btn-bd-primary mb-3 mr-md-3" >Vamos iniciar ?</a>
+            <a href="#" class="btn btn-lg btn-primary mb-3 mr-md-3" >Vamos iniciar ?</a>
           </div>
           <p class="text-muted mb-0">
             Versão v0.0.1

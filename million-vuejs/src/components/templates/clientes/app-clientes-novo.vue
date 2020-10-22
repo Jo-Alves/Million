@@ -58,40 +58,48 @@
                 <h1 class="mb-3" style="text-transform: uppercase;">Clientes</h1>
 
                 <div class="form">
-                    <input class="form-control" type="text" placeholder="Seu nome..." />
-                    <input class="form-control mt-2" type="text" placeholder="Seu sobrenome..." />
-                    <input class="form-control mt-2" type="text" placeholder="Seu cpf..." />
-                    <input class="form-control mt-2" type="text" placeholder="Seu login..." />
-                    <input class="form-control mt-2" type="password" placeholder="Sua senha..." />
-                    <button class="btn btn-success mt-2 p-2 pl-4 pr-4">Salvar</button>
+                    <input class="form-control" type="text" placeholder="Seu nome..." v-model="cliente.nome" />
+                    <input class="form-control mt-2" type="text" placeholder="Seu sobrenome..." v-model="cliente.sobrenome" />
+                    <input class="form-control mt-2" type="text" placeholder="Seu cpf..." v-model="cliente.cpf" />
+                    <input class="form-control mt-2" type="text" placeholder="Seu login..." v-model="cliente.login" />
+                    <input class="form-control mt-2" type="password" placeholder="Sua senha..." v-model="cliente.senha" />
+					<div class="alert alert-danger mb-2 mt-2" v-if="error">
+						{{error}}
+					</div>
+                    <button class="btn btn-success mt-2 p-2 pl-4 pr-4 mr-3" @click="salvar">Salvar</button>
+                    <router-link to="/clientes" class="btn btn-danger mt-2 p-2 pl-4 pr-4">Cancelar</router-link>
                 </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Sobrenome</th>
-                            <th>CPF</th>
-                            <th>Login</th>
-                            <th>Senha</th>
-                            <th>Options</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Valdirene Aparecida</td>
-                            <td>Ferreira</td>
-                            <td>000.000.000-00</td>
-                            <td>Val</td>
-                            <td>12345</td>
-                            <td>
-                                <span class="btn btn-warning mr-2" style="font-size: 12px;"><i class="fas fa-pencil-alt" style="font-size: 20px;"></i></span>
-                                <span class="btn btn-danger" style="font-size: 12px;"><i class="fas fa-trash" style="font-size: 20px;"></i></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
 </main>
 </template>
+
+<script>
+import api from "./../../../config/api";
+export default {
+	data(){
+		return {
+			error: "",
+			cliente: {
+				nome: "",
+				sobrenome: "",
+				cpf: "",
+				login: "",
+				senha: ""
+			}
+		}
+	},
+	methods: {
+		salvar(){
+			api.post("clientes.json", this.cliente)
+				.then(() => {
+					history.go(-1)
+				})
+				.catch(err => {
+					this.error = err
+				})
+		}
+	}
+}
+</script>

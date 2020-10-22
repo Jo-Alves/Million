@@ -130,36 +130,65 @@
           </svg>
         </div>
         <div class="col-10">
-			<h1 class="mb-3">Fundo Imobiliário</h1>
-			<div class="form">
-				<input class="form-control" type="text" placeholder="Nome..." />
-				<input class="form-control mt-2" type="number" placeholder="Taxa..." />
-				<input class="form-control mt-2" type="number" placeholder="Indice Infix..." />
-				<button class="btn btn-success mt-2 p-2 pl-4 pr-4">Salvar</button>
-			</div>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>taxa</th>
-						<th>Indice Infix</th>
-						<th>Options</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>ASDASD</td>
-						<td>0.3</td>
-						<td>1</td>
-						<td>
-							<span class="btn btn-warning mr-2"  style="font-size: 12px;"><i class="fas fa-pencil-alt" style="font-size: 20px;"></i></span>
-							<span class="btn btn-danger" style="font-size: 12px;"><i class="fas fa-trash"  style="font-size: 20px;"></i></span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+          <h1 class="mb-3" style="text-transform: uppercase">Tesouro Direto</h1>
+          <router-link
+            to="/tesouro/novo"
+            class="btn btn-primary p-2 pr-4 pl-4 mb-4"
+            >Novo</router-link
+          >
+          <table class="table text-center">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Taxa</th>
+                <th>IR</th>
+                <th>Pré | Pós</th>
+                <th>Vencimento</th>
+                <th>País</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="tesouro in tesouros" :key="tesouro.id">
+                <td>{{tesouro.nome}}</td>
+                <td>{{tesouro.taxa}}</td>
+                <td>{{tesouro.ir}}</td>
+                <td>{{tesouro.fixado}}</td>
+                <td>{{tesouro.vencimento}}</td>
+                <td>{{tesouro.pais}}</td>
+                <td>
+                  <span class="btn btn-warning mr-2" style="font-size: 12px"
+                    ><i class="fas fa-pencil-alt" style="font-size: 20px"></i
+                  ></span>
+                  <span class="btn btn-danger" style="font-size: 12px"
+                    ><i class="fas fa-trash" style="font-size: 20px"></i
+                  ></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </main>
 </template>
+
+<script>
+import api from "./../../../config/api";
+export default {
+	data(){
+		return {
+			tesouros: []
+		}
+	},
+	methods: {
+		async lista(){
+			const response = await api.get("/tesouros.json");
+			this.tesouros = response.data;
+		}
+	},
+	created(){
+		this.lista();
+	}
+}
+</script>
