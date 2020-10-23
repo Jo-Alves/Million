@@ -154,12 +154,12 @@
                 <td>{{cliente.login}}</td>
                 <td>{{cliente.senha}}</td>
                 <td>
-                  <span class="btn btn-warning mr-2" style="font-size: 12px"
+                  <button class="btn btn-warning mr-2" style="font-size: 12px" @click="editar(cliente)"
                     ><i class="fas fa-pencil-alt" style="font-size: 20px"></i
-                  ></span>
-                  <span class="btn btn-danger" style="font-size: 12px"
+                  ></button>
+                  <button class="btn btn-danger" style="font-size: 12px"
                     ><i class="fas fa-trash" style="font-size: 20px"></i
-                  ></span>
+                  ></button>
                 </td>
               </tr>
             </tbody>
@@ -180,6 +180,9 @@ export default {
 		}
 	}, 
 	methods: {
+		editar(cliente){
+			this.$router.push(`clientes/${cliente._id}`);
+		},
 		lista(){
 			api.get("/clientes.json").then(response => {
 				this.clientes = response.data;
@@ -187,6 +190,7 @@ export default {
 		}
 	},
 	created(){
+		window.scrollTo(500, 0);
 		this.lista()
 	}
 }

@@ -155,23 +155,36 @@ export default {
 			error: "",
 			fundo: {
 				nome: "",
-				sobrenome: "",
-				cpf: "",
-				login: "",
-				senha: ""
+				taxaRetorno: "",
+				indiceInfix: ""
 			}
 		}
 	},
 	methods: {
 		salvar(){
-			api.post("fi.json", this.fundo)
+			const method = this.fundo._id ? "put" : "post";
+			const id = this.fundo._id ? `/${this.fundo._id}` : "";
+			api[method](`fi${id}.json`, this.fundo)
 				.then(() => {
 					history.go(-1)
 				})
 				.catch(err => {
 					this.error = err
 				})
+		},
+		lista(){
+			api.get(`fi/${this.$route.params.id}.json`)
+				.then(response => {
+					this.fundo = response.data;
+				})
+				.catch(err => {
+					this.error = err
+				})
 		}
+	},
+	created(){
+		window.scrollTo(500, 0);
+		this.lista();
 	}
 }
 </script>

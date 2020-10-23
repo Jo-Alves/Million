@@ -141,7 +141,7 @@
             <button class="btn btn-success mt-2 p-2 pl-4 pr-4 mr-3" @click="salvar" >
               Salvar
             </button>
-            <router-link to="/cbd" class="btn btn-danger mt-2 p-2 pl-4 pr-4">Cancelar</router-link>
+            <router-link to="/cdb" class="btn btn-danger mt-2 p-2 pl-4 pr-4">Cancelar</router-link>
           </div>
         </div>
       </div>
@@ -150,7 +150,10 @@
 </template>
 
 <script>
+// import moment from "moment";
 import api from "./../../../config/api";
+import DateTimeFormat from 'format-date-time'
+
 
 export default {
 	data(){
@@ -162,16 +165,35 @@ export default {
 				vencimento: ""
 			}
 		}
-	}, methods: {
+	}, 
+	methods: {
 		salvar(){
-			api.post("/cdb.json", this.cdb)
+			const method = this.cdb._id ? "put" : "post";
+			const id = this.cdb._id ? `/${this.cdb._id}` : "";
+			api[method](`/cdb${id}.json`, this.cdb)
 				.then(() => {
 					history.go(-1)
 				})
 				.catch(err => {
 					this.error = err;
 				})
+		},
+		lista(){
+			const id = this.$route.params.id;
+			api.get(`/cdb/${id}.json`)
+				.then(response => {
+					this.cdb = response.data;
+					const defaultFormatter = new DateTimeFormat();
+					this.cdb.vencimento = defaultFormatter.now('YYYY-MM-DD');
+				})
+				.catch(err => {
+					console.log(err);
+				})
 		}
+	},
+	created(){
+		window.scrollTo(500, 0);
+		this.lista();
 	}
 }
 

@@ -10,6 +10,10 @@
   "dependencies": {
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "date-and-time": "^0.14.1",
+    "format-date-time": "^0.3.2",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.31",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4"
   },

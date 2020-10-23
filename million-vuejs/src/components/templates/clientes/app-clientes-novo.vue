@@ -91,15 +91,30 @@ export default {
 		}
 	},
 	methods: {
+		lista(){
+			api.get(`clientes/${this.$route.params.id}.json`)
+				.then(response => {
+					this.cliente = response.data;
+				})
+				.catch(err => {
+					this.error = err
+				})
+		},
 		salvar(){
-			api.post("clientes.json", this.cliente)
+			const method = this.cliente._id ? "put" : "post";
+			const id = this.cliente._id ? `/${this.cliente._id}` : "";
+			api[method](`clientes${id}.json`, this.cliente)
 				.then(() => {
-					history.go(-1)
+					this.$router.push("/clientes")
 				})
 				.catch(err => {
 					this.error = err
 				})
 		}
+	},
+	created(){
+		window.scrollTo(500, 0);
+		this.lista();
 	}
 }
 </script>

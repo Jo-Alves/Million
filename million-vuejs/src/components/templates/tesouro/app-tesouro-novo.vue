@@ -144,8 +144,8 @@
               <option value="PRÉ">PRÉ</option>
               <option value="PRÓ">PRÓ</option>
             </select>
-            <input class="form-control" type="text" placeholder="País..." v-model="tesouro.pais" />
-            <input class="form-control" type="Date" placeholder="Vencimento..." v-model="tesouro.vencimento" />
+            <input class="form-control mt-2" type="text" placeholder="País..." v-model="tesouro.pais" />
+            <input class="form-control mt-2" type="Date" placeholder="Vencimento..." v-model="tesouro.vencimento" />
 			<div class="alert alert-danger mb-2 mt-2" v-if="error">
 				{{error}}
 			</div>
@@ -161,6 +161,9 @@
 </template>
 <script>
 import api from "./../../../config/api";
+// import DateTimeFormat from 'format-date-time'
+import date from "date-and-time";
+// import moment from "moment-timezone";
 
 export default {
 	data(){
@@ -178,15 +181,43 @@ export default {
 	},
 	methods: {
 		salvar(){
-			console.log(this.tesouro)
-			api.post("tesouros.json", this.tesouro)
+			const method = this.tesouro._id ? "put" : "post";
+			const id = this.tesouro._id ? `/${this.tesouro._id}` : "";
+			api[method](`tesouros${id}.json`, this.tesouro)
 				.then(() => {
 					history.go(-1)
 				})
 				.catch(err => {
 					this.error = err
 				})
+		},
+		lista(){
+			if(this.$route.params.id)
+			{
+				api.get(`tesouros/${this.$route.params.id}.json`)
+					.then(response => {
+						this.tesouro = response.data;
+						// const formatter = new DateTimeFormat('YYYY-MM-DD');
+						// this.tesouro.vencimento = formatter.parse(new Date(response.data.vencimento));
+						this.tesouro.vencimento = date.format(new Date(response.data.vencimento), 'YYYY-MM-DD')
+						
+						// var jun = moment("2014-06-01T12:00:00Z");
+						// var dec = moment("2014-12-01T12:00:00Z");
+
+						// const da = moment.tz(response.data.vencimento, 'America/Sao_Paulo')._d
+						// console.log(da)
+						// console.log(date.format(da, 'YYYY-MM-DD'));  // 4am PST
+						// this.tesouro.vencimento = date.format(new Date(response.data.vencimento), 'YYYY-MM-DD')
+					})
+					.catch(err => {
+						this.error = err;
+					})
+			}
 		}
+	},
+	created(){
+		window.scrollTo(500, 0);
+		this.lista();
 	}
 }
 </script>

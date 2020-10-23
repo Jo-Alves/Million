@@ -136,7 +136,7 @@
             class="btn btn-primary p-2 pr-4 pl-4 mb-4"
             >Novo</router-link
           >
-          <table class="table text-center">
+          <table class="table text-center" v-if="tesouros.length > 0">
             <thead>
               <tr>
                 <th>Nome</th>
@@ -157,12 +157,12 @@
                 <td>{{tesouro.vencimento}}</td>
                 <td>{{tesouro.pais}}</td>
                 <td>
-                  <span class="btn btn-warning mr-2" style="font-size: 12px"
+                  <button class="btn btn-warning mr-2" style="font-size: 12px" @click="editar(tesouro)"
                     ><i class="fas fa-pencil-alt" style="font-size: 20px"></i
-                  ></span>
-                  <span class="btn btn-danger" style="font-size: 12px"
-                    ><i class="fas fa-trash" style="font-size: 20px"></i
-                  ></span>
+                  ></button>
+                  <button class="btn btn-danger" style="font-size: 12px"
+                    ><i class="fas fa-trash" style="font-size: 20px" @click="excluir(tesouro)"></i
+                  ></button>
                 </td>
               </tr>
             </tbody>
@@ -175,6 +175,8 @@
 
 <script>
 import api from "./../../../config/api";
+import DateTimeFormat from 'format-date-time'
+
 export default {
 	data(){
 		return {
@@ -182,12 +184,36 @@ export default {
 		}
 	},
 	methods: {
+		editar(tesouro){
+			this.$router.push(`tesouro/${tesouro._id}`)
+		},
+		excluir(tesouro){
+			if(confirm("Deseja mesmo excluir?")){
+				api.delete(`/tesouros/${tesouro._id}.json`)
+					.then(() => {						
+						this.lista();
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
+		},
 		async lista(){
 			const response = await api.get("/tesouros.json");
 			this.tesouros = response.data;
+			this.formateDate();
+		},
+		formateDate(){
+			if(this.tesouros.length > 0){
+				this.tesouros.forEach(({vencimento}, index) => {
+					const formatter = new DateTimeFormat('DD/MM/YYYY');
+					this.tesouros[index].vencimento = formatter.parse(new Date(vencimento));
+				})
+			}
 		}
 	},
 	created(){
+		window.scrollTo(500, 0);
 		this.lista();
 	}
 }

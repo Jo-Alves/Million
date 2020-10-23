@@ -26,7 +26,11 @@ const routes = [
     { path: "/fundo-imobiliario/novo", component: FI_Novo },
     { path: "/tesouro", component: Tesouro },
     { path: "/tesouro/novo", component: TesouroNovo },
-    { path: "/acoes/:id", component: AcaoNovo }
+    { path: "/acoes/:id", component: AcaoNovo },
+    { path: "/cdb/:id", component: CDB_Novo },
+    { path: "/clientes/:id", component: ClienteNovo },
+    { path: "/fundo-imobiliario/:id", component: FI_Novo },
+    { path: "/tesouro/:id", component: TesouroNovo }
 ]
 
 const router = new VueRouter({

@@ -149,12 +149,12 @@
                 <td>{{cdb.valorTaxa}}</td>
                 <td>{{cdb.vencimento}}</td>
                 <td>
-                  <span class="btn btn-warning mr-2" style="font-size: 12px"
+                  <button class="btn btn-warning mr-2" style="font-size: 12px" @click="editar(cdb)"
                     ><i class="fas fa-pencil-alt" style="font-size: 20px"></i
-                  ></span>
-                  <span class="btn btn-danger" style="font-size: 12px"
+                  ></button>
+                  <button class="btn btn-danger" style="font-size: 12px"
                     ><i class="fas fa-trash" style="font-size: 20px"></i
-                  ></span>
+                  ></button>
                 </td>
               </tr>
             </tbody>
@@ -175,6 +175,9 @@ export default {
 		}
 	},
 	methods: {
+		editar(cdb){
+			this.$router.push(`cdb/${cdb._id}`);
+		},
 		lista(){
 			api.get('/cdb.json').then(response => {
 				this.cdbs = response.data;
@@ -182,6 +185,7 @@ export default {
 		}
 	},
 	created(){
+		window.scrollTo(500, 0);
 		this.lista();
 	}
 }
