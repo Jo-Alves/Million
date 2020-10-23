@@ -167,7 +167,6 @@
 
 <script>
 import api from "./../../../config/api"
-import DateTimeFormat from 'format-date-time'
 
 export default {
 	data(){
@@ -203,8 +202,7 @@ export default {
 		formateDate(){
 			if(this.cdbs.length > 0){
 				this.cdbs.forEach(({vencimento}, index) => {
-					const formatter = new DateTimeFormat('DD/MM/YYYY');
-					this.cdbs[index].vencimento = formatter.parse(new Date(vencimento));
+					this.cdbs[index].vencimento = vencimento.substr(0, 10).split("-").reverse().join("/");
 				})
 			}
 		}

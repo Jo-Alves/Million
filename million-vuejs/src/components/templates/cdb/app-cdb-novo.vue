@@ -152,8 +152,6 @@
 <script>
 // import moment from "moment";
 import api from "./../../../config/api";
-import DateTimeFormat from 'format-date-time'
-
 
 export default {
 	data(){
@@ -184,8 +182,7 @@ export default {
 				api.get(`/cdb/${id}.json`)
 					.then(response => {
 						this.cdb = response.data;
-						const defaultFormatter = new DateTimeFormat();
-						this.cdb.vencimento = defaultFormatter.now('YYYY-MM-DD');
+						this.cdb.vencimento = this.cdb.vencimento.substr(0, 10);
 					})
 					.catch(err => {
 						console.log(err);

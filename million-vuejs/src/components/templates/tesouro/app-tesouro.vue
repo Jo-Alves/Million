@@ -142,7 +142,7 @@
                 <th>Nome</th>
                 <th>Taxa</th>
                 <th>IR</th>
-                <th>Pré | Pós</th>
+                <th>Fixo</th>
                 <th>Vencimento</th>
                 <th>País</th>
                 <th>Options</th>
@@ -175,7 +175,7 @@
 
 <script>
 import api from "./../../../config/api";
-import DateTimeFormat from 'format-date-time'
+// import DateTimeFormat from 'format-date-time'
 
 export default {
 	data(){
@@ -206,8 +206,10 @@ export default {
 		formateDate(){
 			if(this.tesouros.length > 0){
 				this.tesouros.forEach(({vencimento}, index) => {
-					const formatter = new DateTimeFormat('DD/MM/YYYY');
-					this.tesouros[index].vencimento = formatter.parse(new Date(vencimento));
+					let date = vencimento.substr(0, 10).split("-").reverse().join("/");
+					// const formatter = new DateTimeFormat('DD/MM/YYYY');
+					// this.tesouros[index].vencimento = formatter.parse(date);
+					this.tesouros[index].vencimento = date;
 				})
 			}
 		}

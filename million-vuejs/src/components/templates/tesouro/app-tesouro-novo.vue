@@ -135,14 +135,14 @@
             <input class="form-control" type="text" placeholder="Nome..." v-model="tesouro.nome" />
             <input class="form-control mt-2" type="number" placeholder="Taxa..." v-model="tesouro.taxa" />
             <select class="form-control mt-2" v-model="tesouro.ir" >
-              <option value disabled>Selecione se tem Imposto de Renda</option>
-              <option value="SIM">SIM</option>
-              <option value="NÃO">NÃO</option>
+				<option value disabled>Selecione se tem Imposto de Renda</option>
+				<option value="SIM">SIM</option>
+				<option value="NÃO">NÃO</option>
             </select>
-            <select class="form-control mt-2" v-model="tesouro.fixado" >
-              <option value disabled>Selecione se É PRÉ OU PRÓ</option>
-              <option value="PRÉ">PRÉ</option>
-              <option value="PRÓ">PRÓ</option>
+            <select class="form-control mt-2" v-model="tesouro.fixado" placeholder="Pré-fixado">
+				<option value disabled>Fixo...</option>             
+				<option value="PRÉ" selected>Pré-fixado</option>
+				<option value="PRÓ">Pró-fixado</option>
             </select>
             <input class="form-control mt-2" type="text" placeholder="País..." v-model="tesouro.pais" />
             <input class="form-control mt-2" type="Date" placeholder="Vencimento..." v-model="tesouro.vencimento" />
@@ -162,7 +162,7 @@
 <script>
 import api from "./../../../config/api";
 // import DateTimeFormat from 'format-date-time'
-import date from "date-and-time";
+// import date from "date-and-time";
 // import moment from "moment-timezone";
 
 export default {
@@ -197,9 +197,11 @@ export default {
 				api.get(`tesouros/${this.$route.params.id}.json`)
 					.then(response => {
 						this.tesouro = response.data;
+						this.tesouro.vencimento = this.tesouro.vencimento.substr(0, 10);
+						
 						// const formatter = new DateTimeFormat('YYYY-MM-DD');
 						// this.tesouro.vencimento = formatter.parse(new Date(response.data.vencimento));
-						this.tesouro.vencimento = date.format(new Date(response.data.vencimento), 'YYYY-MM-DD')
+						// this.tesouro.vencimento = date.format(new Date(response.data.vencimento), 'YYYY-MM-DD')
 						
 						// var jun = moment("2014-06-01T12:00:00Z");
 						// var dec = moment("2014-12-01T12:00:00Z");
