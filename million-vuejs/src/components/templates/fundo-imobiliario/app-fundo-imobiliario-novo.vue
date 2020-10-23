@@ -173,13 +173,16 @@ export default {
 				})
 		},
 		lista(){
-			api.get(`fi/${this.$route.params.id}.json`)
-				.then(response => {
-					this.fundo = response.data;
-				})
-				.catch(err => {
-					this.error = err
-				})
+			if(this.$route.params.id)
+			{
+				api.get(`fi/${this.$route.params.id}.json`)
+					.then(response => {
+						this.fundo = response.data;
+					})
+					.catch(err => {
+						this.error = err
+					})
+			}
 		}
 	},
 	created(){

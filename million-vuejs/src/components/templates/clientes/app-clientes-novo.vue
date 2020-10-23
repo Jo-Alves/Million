@@ -92,13 +92,16 @@ export default {
 	},
 	methods: {
 		lista(){
-			api.get(`clientes/${this.$route.params.id}.json`)
-				.then(response => {
-					this.cliente = response.data;
-				})
-				.catch(err => {
-					this.error = err
-				})
+			if(this.$route.params.id)
+			{
+				api.get(`clientes/${this.$route.params.id}.json`)
+					.then(response => {
+						this.cliente = response.data;
+					})
+					.catch(err => {
+						this.error = err
+					})
+			}
 		},
 		salvar(){
 			const method = this.cliente._id ? "put" : "post";

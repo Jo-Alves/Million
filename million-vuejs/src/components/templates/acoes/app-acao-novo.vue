@@ -135,7 +135,7 @@
             <input class="form-control" type="text" placeholder="Nome..." v-model="acao.nome" />
             <input class="form-control mt-2" type="text" placeholder="Código..." v-model="acao.codigo" />
             <input class="form-control mt-2" type="number" placeholder="Taxa..." v-model="acao.taxa" />
-            <select class="form-control mt-2" v-model="acao.tipo" >
+			<select class="form-control mt-2" v-model="acao.tipo" >
               <option value disabled>Escolha o tipo</option>
               <option value="ON">ON</option>
               <option value="PN">PN</option>
@@ -180,12 +180,13 @@ export default {
 		},
 		lista(){
 			const id = this.$route.params.id;
+			if(!id) return;
 			api.get(`/acoes/${id}.json`)
 				.then(response => {
 					this.acao = response.data;
 				})
 				.catch(err => {
-					console.log(err)
+					this.error = err
 				})
 		}
 	},

@@ -136,7 +136,7 @@
             class="btn btn-primary p-2 pr-4 pl-4 mb-4"
             >Novo</router-link
           >
-          <table class="table text-center">
+          <table class="table text-center" v-if="fundos">
             <thead>
               <tr>
                 <th>Nome</th>
@@ -154,7 +154,7 @@
                   <button class="btn btn-warning mr-2" style="font-size: 12px" @click="editar(fundo)"
                     ><i class="fas fa-pencil-alt" style="font-size: 20px"></i
                   ></button>
-                  <button class="btn btn-danger" style="font-size: 12px"
+                  <button class="btn btn-danger" style="font-size: 12px" @click="excluir(fundo)"
                     ><i class="fas fa-trash" style="font-size: 20px"></i
                   ></button>
                 </td>
@@ -179,6 +179,17 @@ export default {
 	methods: {
 		editar(fundo){
 			this.$router.push(`/fundo-imobiliario/${fundo._id}`)
+		},
+		excluir(fundo){
+			if(confirm("Deseja realmente excluir?")){
+				api.delete(`/fi/${fundo._id}.json`)
+					.then(() => {
+						this.lista();
+					})
+					.catch(err => {
+						console.log(err);
+					})
+			}
 		},
 		lista(){
 			api.get("/fi.json").then(response => {

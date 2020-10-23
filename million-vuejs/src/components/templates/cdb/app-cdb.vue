@@ -134,7 +134,7 @@
           <router-link to="/cdb/novo" class="btn btn-primary p-2 pr-4 pl-4 mb-4"
             >Novo</router-link
           >
-          <table class="table text-center">
+          <table class="table text-center" v-if="cdbs">
             <thead>
               <tr>
                 <th>Nome</th>
@@ -152,7 +152,7 @@
                   <button class="btn btn-warning mr-2" style="font-size: 12px" @click="editar(cdb)"
                     ><i class="fas fa-pencil-alt" style="font-size: 20px"></i
                   ></button>
-                  <button class="btn btn-danger" style="font-size: 12px"
+                  <button class="btn btn-danger" style="font-size: 12px" @click="excluir(cdb)"
                     ><i class="fas fa-trash" style="font-size: 20px"></i
                   ></button>
                 </td>
@@ -167,6 +167,7 @@
 
 <script>
 import api from "./../../../config/api"
+import DateTimeFormat from 'format-date-time'
 
 export default {
 	data(){
@@ -178,10 +179,34 @@ export default {
 		editar(cdb){
 			this.$router.push(`cdb/${cdb._id}`);
 		},
+		excluir(cdb){
+			if(confirm("Deseja realmente excluir?")){
+				api.delete(`/cdb/${cdb._id}.json`)
+					.then(() => {
+						this.lista();
+					})
+					.catch(err => {
+						console.log(err);
+					})	
+			}
+		},
 		lista(){
-			api.get('/cdb.json').then(response => {
-				this.cdbs = response.data;
-			})
+			api.get('/cdb.json')
+				.then(response => {
+					this.cdbs = response.data;
+					this.formateDate();
+				})
+				.catch(err => {
+					console.log(err);
+				})
+		},
+		formateDate(){
+			if(this.cdbs.length > 0){
+				this.cdbs.forEach(({vencimento}, index) => {
+					const formatter = new DateTimeFormat('DD/MM/YYYY');
+					this.cdbs[index].vencimento = formatter.parse(new Date(vencimento));
+				})
+			}
 		}
 	},
 	created(){

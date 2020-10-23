@@ -134,7 +134,7 @@
           <router-link to="/acoes/novo" class="btn btn-primary p-2 pr-4 pl-4 mb-4"
             >Novo</router-link
           >
-          <table class="table text-center">
+          <table class="table text-center" v-if="acoes">
             <thead>
               <tr>
                 <th>Nome</th>
@@ -154,7 +154,7 @@
                   <button class="btn btn-warning mr-2" style="font-size: 12px" @click="editar(acao)"
                     ><i class="fas fa-pencil-alt" style="font-size: 20px"></i
                   ></button>
-                  <button class="btn btn-danger" style="font-size: 12px"
+                  <button class="btn btn-danger" style="font-size: 12px" @click="excluir(acao)"
                     ><i class="fas fa-trash" style="font-size: 20px"></i
                   ></button>
                 </td>
@@ -180,10 +180,25 @@ export default {
 		editar(acao){
 			this.$router.push(`/acoes/${acao._id}`)
 		},
+		excluir(acao){
+			if(confirm("Deseja realmente excluir?")){
+				api.delete(`/acoes/${acao._id}.json`)
+					.then(() => {
+						this.lista();
+					})
+					.catch(err => {
+						console.log(err)
+					})	
+			}
+		},
 		lista(){
-			api.get('/acoes.json').then(response => {
-				this.acoes = response.data;
-			})
+			api.get('/acoes.json')
+				.then(response => {
+					this.acoes = response.data;
+				})
+				.catch(err => {
+					console.log(err)
+				})
 		}
 	},
 	created(){

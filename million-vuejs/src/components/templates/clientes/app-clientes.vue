@@ -135,7 +135,7 @@
           <router-link to="/clientes/novo" class="btn btn-primary p-2 pr-4 pl-4 mb-4"
             >Novo</router-link
           >
-          <table class="table text-center">
+          <table class="table text-center" v-if="clientes">
             <thead>
               <tr>
                 <th>Nome</th>
@@ -157,7 +157,7 @@
                   <button class="btn btn-warning mr-2" style="font-size: 12px" @click="editar(cliente)"
                     ><i class="fas fa-pencil-alt" style="font-size: 20px"></i
                   ></button>
-                  <button class="btn btn-danger" style="font-size: 12px"
+                  <button class="btn btn-danger" style="font-size: 12px" @click="excluir(cliente)"
                     ><i class="fas fa-trash" style="font-size: 20px"></i
                   ></button>
                 </td>
@@ -183,10 +183,25 @@ export default {
 		editar(cliente){
 			this.$router.push(`clientes/${cliente._id}`);
 		},
+		excluir(cliente){
+			if(confirm("Deseja realment excluir?")){
+				api.delete(`/clientes/${cliente._id}.json`)
+					.then(() => {
+						this.lista();
+					})
+					.catch(err => {
+						console.log(err);
+					})
+			}
+		},
 		lista(){
-			api.get("/clientes.json").then(response => {
-				this.clientes = response.data;
-			})
+			api.get("/clientes.json")
+				.then(response => {
+					this.clientes = response.data;
+				})
+				.catch(err => {
+					console.log(err);
+				})
 		}
 	},
 	created(){

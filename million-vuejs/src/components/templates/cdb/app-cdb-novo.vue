@@ -180,15 +180,17 @@ export default {
 		},
 		lista(){
 			const id = this.$route.params.id;
-			api.get(`/cdb/${id}.json`)
-				.then(response => {
-					this.cdb = response.data;
-					const defaultFormatter = new DateTimeFormat();
-					this.cdb.vencimento = defaultFormatter.now('YYYY-MM-DD');
-				})
-				.catch(err => {
-					console.log(err);
-				})
+			if(id){
+				api.get(`/cdb/${id}.json`)
+					.then(response => {
+						this.cdb = response.data;
+						const defaultFormatter = new DateTimeFormat();
+						this.cdb.vencimento = defaultFormatter.now('YYYY-MM-DD');
+					})
+					.catch(err => {
+						console.log(err);
+					})
+			}
 		}
 	},
 	created(){
